@@ -8,16 +8,16 @@ CREATE TABLE cliente (
 
     CONSTRAINT PK_cliente PRIMARY KEY (id)
 )
-CREATE INDEX IDX_cliente_email ON cliente (email)
+CREATE INDEX IDX_cliente_email ON cliente (email);
 
 
 CREATE TABLE estado (
     id int NOT NULL IDENTITY(1, 1),
-    nome VARCHAR(2) NOT NULL UNIQUE,
+    nome CHAR(2) NOT NULL UNIQUE,
 
     CONSTRAINT PK_estado PRIMARY KEY (id),
 )
-INSERT INTO estado (nome) VALUES ('SP'), ('RJ'), ('BH'), ('MG')
+INSERT INTO estado (nome) VALUES ('SP'), ('RJ'), ('BH'), ('MG');
 
 
 CREATE TABLE endereco (
@@ -32,7 +32,7 @@ CREATE TABLE endereco (
 
     CONSTRAINT PK_endereco PRIMARY KEY (id),
     CONSTRAINT FK_endereco_cliente FOREIGN KEY (cliente_id) REFERENCES cliente,
-    CONSTRAINT FK_endereco_estado FOREIGN KEY (endereco_id) REFERENCES endereco
+    CONSTRAINT FK_endereco_estado FOREIGN KEY (endereco_id) REFERENCES estado
 )
 
 
@@ -46,7 +46,7 @@ CREATE TABLE credencial (
     CONSTRAINT PK_credencial PRIMARY KEY (id),
     CONSTRAINT FK_credencial_cliente FOREIGN KEY (cliente_id) REFERENCES cliente
 )
-CREATE INDEX IDX_credencial_usuario ON credencial (usuario, senha)
+CREATE INDEX IDX_credencial_usuario_senha ON credencial (usuario, senha);
 
 
 --   fim cadastro   --
@@ -78,29 +78,15 @@ CREATE TABLE produto_foto (
 )
 
 
-CREATE TABLE item_pedido (
-    id bigint NOT NULL IDENTITY(1, 1),
-    produto_id bigint NOT NULL,
-    preco DECIMAL NOT NULL,
-    desconto DECIMAL NOT NULL,
-    quantidade INT NOT NULL,
-
-    CONSTRAINT PK_item_pedido PRIMARY KEY (id),
-    CONSTRAINT FK_item_pedido_produto FOREIGN KEY (produto_id) REFERENCES produto,
-    CONSTRAINT CHK_item_pedido_preco CHECK (preco >= 0),
-    CONSTRAINT CHK_item_pedido_quantidade CHECK (quantidade >= 0)
-)
-
-
-CREATE TABLE situacao_pedido (
+CREATE TABLE pedido_situacao (
     id INT NOT NULL IDENTITY(1, 1),
     descricao VARCHAR(256) NOT NULL,
 
-    CONSTRAINT PK_situacao_pedido PRIMARY KEY (id)
+    CONSTRAINT PK_pedido_situacao PRIMARY KEY (id)
 )
-INSERT INTO situacao_pedido (descricao)
+INSERT INTO pedido_situacao (descricao)
 VALUES ('Aguardando pagamento'), ('Aguardando separação'), 
-	('Aguardando envio'), ('Pedido enviado'), ('Pedido concluído')
+    ('Aguardando envio'), ('Pedido enviado'), ('Pedido concluído');
 
 
 CREATE TABLE pedido (
@@ -112,6 +98,22 @@ CREATE TABLE pedido (
     CONSTRAINT PK_pedido PRIMARY KEY (id),    
     CONSTRAINT FK_pedido_cliente FOREIGN KEY (cliente_id) REFERENCES cliente,
     CONSTRAINT FK_pedido_situacao FOREIGN KEY (situacao_id) REFERENCES situacao_id,
+)
+
+
+CREATE TABLE pedido_item (
+    id bigint NOT NULL IDENTITY(1, 1),
+    pedido_id bigint NOT NULL,
+    produto_id bigint NOT NULL,
+    preco DECIMAL NOT NULL,
+    desconto DECIMAL NOT NULL,
+    quantidade INT NOT NULL,
+
+    CONSTRAINT PK_pedido_item PRIMARY KEY (id),
+    CONSTRAINT FK_pedido_item_pedido FOREIGN KEY (pedido_id) REFERENCES pedido,
+    CONSTRAINT FK_pedido_item_produto FOREIGN KEY (produto_id) REFERENCES produto,
+    CONSTRAINT CHK_pedido_item_preco CHECK (preco >= 0),
+    CONSTRAINT CHK_pedido_item_quantidade CHECK (quantidade >= 0)
 )
 
 

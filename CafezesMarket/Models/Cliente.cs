@@ -11,7 +11,8 @@ namespace CafezesMarket.Models
         public DateTime Nascimento { get; set; }
         public string Email { get; set; }
 
-        public virtual List<Endereco> Enderecos { get; set; }
         public virtual Credencial Credencial { get; set; }
+        public virtual List<Pedido> Pedidos { get; set; }
+        public virtual List<Endereco> Enderecos { get; set; }
     }
 }

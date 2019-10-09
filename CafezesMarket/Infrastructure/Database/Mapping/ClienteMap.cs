@@ -2,7 +2,7 @@ using CafezesMarket.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace CafezesMarket.Repository.Mapping
+namespace CafezesMarket.Infrastructure.Database.Mapping
 {
     public class ClienteMap : IEntityTypeConfiguration<Cliente>
     {
@@ -14,6 +14,7 @@ namespace CafezesMarket.Repository.Mapping
             builder.Property(model => model.Id)
                 .HasColumnName("id")
                 .HasColumnType("bigint")
+                .ValueGeneratedOnAdd()
                 .IsRequired();
 
             builder.Property(model => model.Nome)
@@ -39,7 +40,20 @@ namespace CafezesMarket.Repository.Mapping
                 .HasMaxLength(512)
                 .IsRequired();
 
-            builder.HasMany(model => model.Enderecos);
+            builder.HasIndex(model => model.Email)
+                .HasName("IDX_cliente_email");
+
+            builder.HasOne(model => model.Credencial)
+                .WithOne()
+                .HasForeignKey<Credencial>(credencial => credencial.ClienteId);
+
+            builder.HasMany(model => model.Enderecos)
+                .WithOne()
+                .HasForeignKey(endereco => endereco.ClienteId);
+
+            builder.HasMany(model => model.Pedidos)
+                .WithOne(model => model.Cliente)
+                .HasForeignKey(pedido => pedido.ClienteId);
         }
     }
 }

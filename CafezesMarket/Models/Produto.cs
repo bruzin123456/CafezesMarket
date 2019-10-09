@@ -11,6 +11,6 @@ namespace CafezesMarket.Models
         public decimal Preco { get; set; }
         public int Quantidade { get; set; }
 
-        public virtual List<Foto> Fotos { get; set; }
+        public virtual List<ProdutoFoto> Fotos { get; set; }
     }
 }
