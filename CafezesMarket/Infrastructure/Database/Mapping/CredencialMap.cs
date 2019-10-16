@@ -22,25 +22,24 @@ namespace CafezesMarket.Infrastructure.Database.Mapping
                 .HasColumnType("bigint")
                 .IsRequired();
 
-            builder.Property(model => model.Usuario)
-                .HasColumnName("usuario")
-                .HasColumnType("varchar(128)")
-                .IsRequired();
-
             builder.Property(model => model.Senha)
                 .HasColumnName("senha")
-                .HasColumnType("varchar(2048)")
+                .HasColumnType("varchar(1024)")
                 .IsRequired();
 
             builder.Property(model => model.Salt)
                 .HasColumnName("salt")
                 .HasColumnType("varchar(512)");
 
-            builder.HasIndex(model => model.Usuario)
-                .IsUnique();
+            builder.Property(model => model.Erros)
+                .HasColumnName("erros")
+                .HasColumnType("int")
+                .HasDefaultValue(0)
+                .IsRequired();
 
-            builder.HasIndex(model => new { model.Usuario, model.Senha })
-                .HasName("IDX_credencial_usuario_senha");
+            builder.Property(model => model.UltimoErro)
+                .HasColumnName("ultimo_erro")
+                .HasColumnType("datetime2");
         }
     }
 }

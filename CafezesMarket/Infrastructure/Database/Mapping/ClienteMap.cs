@@ -41,7 +41,8 @@ namespace CafezesMarket.Infrastructure.Database.Mapping
                 .IsRequired();
 
             builder.HasIndex(model => model.Email)
-                .HasName("IDX_cliente_email");
+                .HasName("IDX_cliente_email")
+                .IsUnique();
 
             builder.HasOne(model => model.Credencial)
                 .WithOne()

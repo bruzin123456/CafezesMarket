@@ -42,6 +42,10 @@ namespace CafezesMarket.Infrastructure.Database.Mapping
                 .HasColumnType("int")
                 .IsRequired();
 
+            builder.HasOne(model => model.Pedido)
+                .WithMany(pedido => pedido.Itens)
+                .HasForeignKey(item => item.PedidoId);
+
             builder.HasOne(model => model.Produto)
                 .WithMany()
                 .HasForeignKey(item => item.ProdutoId);

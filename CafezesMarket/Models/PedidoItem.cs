@@ -9,6 +9,7 @@ namespace CafezesMarket.Models
         public decimal Desconto { get; set; }
         public int Quantidade { get; set; }
 
+        public virtual Pedido Pedido { get; set; }
         public virtual Produto Produto { get; set; }
     }
 }

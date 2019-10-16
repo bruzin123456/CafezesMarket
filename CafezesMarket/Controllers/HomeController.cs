@@ -1,31 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
+﻿using System.Diagnostics;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using CafezesMarket.Models;
+using CafezesMarket.Services.Interfaces;
 
 namespace CafezesMarket.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IProdutoService _produtoService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger,
+            IProdutoService produtoService)
         {
             _logger = logger;
+            _produtoService = produtoService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
-        }
+            var tops = await _produtoService
+                .ObterMaisVendidosAsync(pageSize: 4);
 
-        public IActionResult Privacy()
-        {
-            return View();
+            return View(model: tops);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

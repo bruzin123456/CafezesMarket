@@ -1,5 +1,6 @@
-using CafezesMarket.Infrastructure.Database.Mapping;
+﻿using CafezesMarket.Infrastructure.Database.Mapping;
 using Microsoft.EntityFrameworkCore;
+using CafezesMarket.Models;
 
 namespace CafezesMarket.Infrastructure.Database.Context
 {
@@ -24,5 +25,9 @@ namespace CafezesMarket.Infrastructure.Database.Context
 
             base.OnModelCreating(modelBuilder);
         }
+
+        public DbSet<CafezesMarket.Models.Credencial> Credencial { get; set; }
+
+        public DbSet<CafezesMarket.Models.Produto> Produto { get; set; }
     }
 }

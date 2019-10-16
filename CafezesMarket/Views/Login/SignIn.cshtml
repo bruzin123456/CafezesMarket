@@ -1,0 +1,26 @@
+﻿@model Login
+
+@{
+    ViewData["Title"] = "Login";
+}
+
+<link rel="stylesheet" href="~/css/signin.css" />
+
+<div class="text-center">
+    <form class="form-signin" name="form-signin" method="post" asp-controller="Login" asp-action="" asp-route-returnurl="@Model.ReturnUrl">
+        <h1 class="h3 mb-3 font-weight-normal">bem-vindo</h1>
+        <div>
+            <label asp-for="Email" class="sr-only">E-mail</label>
+            <input asp-for="Email" type="email" id="inputEmail" class="form-control" placeholder="E-mail" required autofocus>
+        </div>
+        <div>
+            <label asp-for="Senha" class="sr-only">Senha</label>
+            <input asp-for="Senha" type="password" id="inputPassword" class="form-control" placeholder="Senha" required>
+        </div>
+        <span asp-validation-for="Email"></span>
+        <span asp-validation-for="Senha"></span>
+
+        <br />
+        <input class="btn btn-lg btn-dark btn-block" type="submit" value="Entrar" />
+    </form>
+</div>
