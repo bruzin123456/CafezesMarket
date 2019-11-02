@@ -44,9 +44,19 @@ namespace CafezesMarket.Infrastructure.Database.Mapping
                 .HasColumnType("int")
                 .IsRequired();
 
+            builder.Property(model => model.Ativo)
+                .HasColumnName("ativo")
+                .HasColumnType("bit")
+                .HasDefaultValue(true)
+                .IsRequired();
+
             builder.HasMany(model => model.Fotos)
                 .WithOne()
                 .HasForeignKey(foto => foto.ProdutoId);
+
+            builder.HasMany(model => model.PedidosItems)
+                .WithOne(item => item.Produto)
+                .HasForeignKey(item => item.ProdutoId);
         }
     }
 }

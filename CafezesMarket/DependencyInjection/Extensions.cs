@@ -28,7 +28,7 @@ namespace CafezesMarket.DependencyInjection
             services.AddDbContextPool<DefaultContext>((provider, options) =>
             {
                 var config = provider.GetRequiredService<IConfiguration>();
-                var connStr = config.GetConnectionString("database");
+                var connStr = config.GetConnectionString("azureDB");
 
                 if (string.IsNullOrWhiteSpace(connStr))
                 {
@@ -37,13 +37,14 @@ namespace CafezesMarket.DependencyInjection
 
                 options.UseSqlServer(connStr, sqlOptions =>
                     sqlOptions.EnableRetryOnFailure());
-            });
+            }, poolSize: 4);
 
             return services;
         }
 
         public static IServiceCollection AddServices(this IServiceCollection services)
         {
+            services.AddTransient<IClienteService, ClienteService>();
             services.AddTransient<IProdutoService, ProdutoService>();
             services.AddTransient<ICredencialService, CredencialService>();
 

@@ -7,18 +7,22 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Net;
 using System.Threading.Tasks;
+using static CafezesMarket.Models.Enums;
 
 namespace CafezesMarket.Controllers
 {
     public class LoginController : Controller
     {
         private readonly ILogger _logger;
+        private readonly IClienteService _clienteService;
         private readonly ICredencialService _credencialService;
 
         public LoginController(ILogger<LoginController> logger,
+            IClienteService clienteService,
             ICredencialService credencialService)
         {
             _logger = logger;
+            _clienteService = clienteService;
             _credencialService = credencialService;
         }
 
@@ -138,11 +142,44 @@ namespace CafezesMarket.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> SignUp(string email, string senha)
+        public async Task<IActionResult> SignUp(Cliente model)
         {
             try
             {
-                await Task.Delay(100);
+                var resposta = await _clienteService
+                    .InserirClienteAsync(model);
+
+                switch (resposta)
+                {
+                    case CadastroCliente.CpfInvalido:
+                        ModelState.AddModelError("Cpf", "Cpf inválido, digite somente números, sem pontos ou traços.");
+                        break;
+
+                    case CadastroCliente.DataNascimentoInvalida:
+                        ModelState.AddModelError("Nascimento", "Idade mínima de 12 anos.");
+                        break;
+
+                    case CadastroCliente.EmailJaExiste:
+                        ModelState.AddModelError("Email", "E-mail já cadastrado. Verifique...");
+                        break;
+
+                    case CadastroCliente.CpfJaExiste:
+                        ModelState.AddModelError("Cpf", "Cpf já cadastrado. Verifique...");
+                        break;
+
+                    case CadastroCliente.ErroSistema:
+                        ModelState.AddModelError("Nome", "Desculpe ocorreu um erro...");
+                        break;
+
+                    case CadastroCliente.Sucesso:
+                        ModelState.Clear();
+                        ViewBag.Mensagem = "Eba. Cadastro realizado com sucesso!!!";
+                        break;
+
+                    default:
+                        throw new ArgumentException("Resposta inválida", nameof(resposta));
+                };
+
                 return View();
             }
             catch (Exception ex)

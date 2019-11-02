@@ -10,7 +10,9 @@ namespace CafezesMarket.Models
         public string Categoria { get; set; }
         public decimal Preco { get; set; }
         public int Quantidade { get; set; }
+        public bool Ativo { get; set; }
 
         public virtual List<ProdutoFoto> Fotos { get; set; }
+        public virtual List<PedidoItem> PedidosItems { get; set; }
     }
 }

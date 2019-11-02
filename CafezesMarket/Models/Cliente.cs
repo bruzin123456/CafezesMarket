@@ -14,5 +14,27 @@ namespace CafezesMarket.Models
         public virtual Credencial Credencial { get; set; }
         public virtual List<Pedido> Pedidos { get; set; }
         public virtual List<Endereco> Enderecos { get; set; }
+
+
+        public bool EhValidoCpf()
+        {
+            if (long.TryParse(Cpf, out long result) && result > 0
+                && Cpf.Length >= 6 && Cpf.Length <= 11)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public bool EhValidaDataNascimento()
+        {
+            if (Nascimento.Date.AddYears(12) <= DateTime.Now.Date)
+            {
+                return true;
+            }
+
+            return false;
+        }
     }
 }

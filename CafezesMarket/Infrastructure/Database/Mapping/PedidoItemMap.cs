@@ -47,7 +47,7 @@ namespace CafezesMarket.Infrastructure.Database.Mapping
                 .HasForeignKey(item => item.PedidoId);
 
             builder.HasOne(model => model.Produto)
-                .WithMany()
+                .WithMany(produto => produto.PedidosItems)
                 .HasForeignKey(item => item.ProdutoId);
         }
     }

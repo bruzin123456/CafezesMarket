@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Threading.Tasks;
+using CafezesMarket.Models;
 using CafezesMarket.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using X.PagedList;
 
 namespace CafezesMarket.Controllers
 {
@@ -20,17 +22,21 @@ namespace CafezesMarket.Controllers
 
         [HttpGet]
         [Route("Produto")]
-        public async Task<IActionResult> Index(int page = 1, int pageSize = 20)
+        public async Task<IActionResult> Index(int page = 1, int pageSize = 6)
         {
             try
             {
-                var model = await _produtoService
+                var produtos = await _produtoService
                     .ObterMaisVendidosAsync(page, pageSize, false);
 
-                if (model.Count == 0)
+                if (produtos.Count == 0)
                 {
                     return RedirectToAction("Index", "Home");
                 }
+
+                var totalProdutos = await _produtoService.CountAsync(false);
+
+                var model = new StaticPagedList<Produto>(produtos, page, pageSize, totalProdutos);
 
                 return View(model);
             }

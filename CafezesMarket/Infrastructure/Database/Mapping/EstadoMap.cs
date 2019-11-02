@@ -17,14 +17,14 @@ namespace CafezesMarket.Infrastructure.Database.Mapping
                .ValueGeneratedOnAdd()
                .IsRequired();
 
-            builder.Property(model => model.Nome)
-                .HasColumnName("nome")
+            builder.Property(model => model.Sigla)
+                .HasColumnName("sigla")
                 .HasColumnType("char(2)")
                 .HasMaxLength(2)
                 .IsFixedLength()
                 .IsRequired();
 
-            builder.HasIndex(model => model.Nome)
+            builder.HasIndex(model => model.Sigla)
                 .IsUnique();
         }
     }

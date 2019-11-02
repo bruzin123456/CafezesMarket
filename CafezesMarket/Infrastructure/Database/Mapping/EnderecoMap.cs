@@ -55,6 +55,12 @@ namespace CafezesMarket.Infrastructure.Database.Mapping
                 .HasMaxLength(512)
                 .IsRequired();
 
+            builder.Property(model => model.Ativo)
+                .HasColumnName("ativo")
+                .HasColumnType("bit")
+                .HasDefaultValue(true)
+                .IsRequired();
+
             builder.HasOne(model => model.Estado)
                 .WithMany()
                 .HasForeignKey(endereco => endereco.EstadoId);

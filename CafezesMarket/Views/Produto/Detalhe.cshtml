@@ -1,0 +1,69 @@
+﻿@model CafezesMarket.Models.Produto
+
+@{
+    ViewData["Title"] = "Detalhe";
+}
+
+<link rel="stylesheet" href="~/css/detalheProduto.css" />
+
+<div class="card">
+    <div class="row">
+        <aside class="col-sm-5 border-right">
+            <article class="gallery-wrap">
+                <div class="img-big-wrap">
+                    <div><img src="@Model.Fotos.FirstOrDefault()?.Caminho"></div>
+                </div> <!-- slider-product.// -->
+                <div class="img-small-wrap">
+                    @foreach (var image in Model.Fotos)
+                    {
+                        <div class="item-gallery"><img src="@image.Caminho"></div>
+                    }
+                </div> <!-- slider-nav.// -->
+            </article> <!-- gallery-wrap .end// -->
+        </aside>
+        <aside class="col-sm-7">
+            <article class="card-body p-5">
+                <h3 class="title mb-3">@Model.Titulo</h3>
+
+                <p class="price-detail-wrap">
+                    <span class="price h3 text-warning">
+                        <span class="currency">@Model.Preco.ToString("C", new CultureInfo("pt-BR"))</span>
+                    </span>
+                    <span>unidade</span>
+                </p> <!-- price-detail-wrap .// -->
+                <dl class="item-property">
+                    <dt>Descri&ccedil;&atilde;o</dt>
+                    <dd><p>@Html.Raw(Model.Descricao ?? string.Empty)</p></dd>
+                </dl>
+                <hr>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <dl class="param param-inline">
+                            <dt>Quantidade:</dt>
+                            <dd>
+                                <select class="form-control form-control-sm" style="width:70px;">
+                                    @foreach (var i in Enumerable.Range(1, Math.Min(5, Model.Quantidade)))
+                                    {
+                                        <option>@i.ToString()</option>
+                                    }
+                                </select>
+                            </dd>
+                        </dl>  <!-- item-property .// -->
+                    </div> <!-- col.// -->
+                    <div class="col-sm-4" style="margin-top: 10px">
+                        @if (@Model.Quantidade == 0)
+                        {
+                            <a class="btn btn-md btn-warning disabled" href="#" role="button">indisponivel</a>
+                        }
+                        else
+                        {
+                            <a class="btn btn-md btn-warning" href="#" role="button">adicionar ao carrinho</a>
+                        }
+                    </div>
+                </div> <!-- row.// -->
+            </article> <!-- card-body.// -->
+        </aside> <!-- col.// -->
+    </div> <!-- row.// -->
+</div> <!-- card.// -->
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>

@@ -13,11 +13,18 @@ CREATE INDEX IDX_cliente_email ON cliente (email);
 
 CREATE TABLE estado (
     id INT NOT NULL IDENTITY(1, 1),
-    nome CHAR(2) NOT NULL UNIQUE,
+    sigla CHAR(2) NOT NULL UNIQUE,
 
     CONSTRAINT PK_estado PRIMARY KEY (id),
 )
-INSERT INTO estado (nome) VALUES ('SP'), ('RJ'), ('BH'), ('MG');
+INSERT INTO estado (sigla)
+VALUES ('AC'),('AL'),('AP'),
+('AM'),('BA'),('CE'),('DF'),
+('ES'),('GO'),('MA'),('MT'),
+('MS'),('MG'),('PA'),('PB'),
+('PR'),('PE'),('PI'),('RJ'),
+('RN'),('RS'),('RO'),('RR'),
+('SC'),('SP'),('SE'),('TO');
 
 
 CREATE TABLE endereco (
@@ -29,6 +36,7 @@ CREATE TABLE endereco (
     complemento VARCHAR(1024),
     cidade VARCHAR(512) NOT NULL,
     estado_id INT NOT NULL,
+    ativo bit NOT NULL DEFAULT(1),
 
     CONSTRAINT PK_endereco PRIMARY KEY (id),
     CONSTRAINT FK_endereco_cliente FOREIGN KEY (cliente_id) REFERENCES cliente,
@@ -62,6 +70,7 @@ CREATE TABLE produto (
     categoria VARCHAR(128) NOT NULL,
     preco DECIMAL NOT NULL,
     quantidade INT NOT NULL,
+    ativo bit NOT NULL DEFAULT(1),
 
     CONSTRAINT PK_produto PRIMARY KEY (id),
     CONSTRAINT CHK_produto_preco CHECK (preco >= 0),
@@ -87,14 +96,15 @@ CREATE TABLE pedido_situacao (
 )
 INSERT INTO pedido_situacao (descricao)
 VALUES ('Aguardando pagamento'), ('Aguardando separação'), 
-    ('Aguardando envio'), ('Pedido enviado'), ('Pedido concluído');
+    ('Aguardando envio'), ('Pedido enviado'), ('Pedido concluído'),
+    ('Cancelado'), ('Pagamento negado');
 
 
 CREATE TABLE pedido (
     id bigint NOT NULL IDENTITY(1, 1),
     cliente_id bigint NOT NULL,
+    situacao_id INT NOT NULL,
     emissao DATETIME2 NOT NULL DEFAULT(getdate()),
-    situacao_id INT NOT NULL
 
     CONSTRAINT PK_pedido PRIMARY KEY (id),    
     CONSTRAINT FK_pedido_cliente FOREIGN KEY (cliente_id) REFERENCES cliente,

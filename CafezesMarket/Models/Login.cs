@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
+﻿using System;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;

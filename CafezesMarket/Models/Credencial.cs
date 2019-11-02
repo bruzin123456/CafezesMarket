@@ -1,4 +1,6 @@
 using System;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace CafezesMarket.Models
 {
@@ -42,6 +44,21 @@ namespace CafezesMarket.Models
             }
 
             return DateTime.Now;
+        }
+
+        public void CriptografarSenha()
+        {
+            if (string.IsNullOrWhiteSpace(Senha))
+            {
+                throw new ArgumentNullException(nameof(Senha));
+            }
+
+            var data = Encoding.ASCII.GetBytes(Senha);
+
+            using var shaM = new SHA512Managed();
+            var result = shaM.ComputeHash(data);
+
+            Senha = Convert.ToBase64String(result);
         }
     }
 }

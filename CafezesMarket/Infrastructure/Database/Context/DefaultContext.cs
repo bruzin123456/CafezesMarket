@@ -29,5 +29,7 @@ namespace CafezesMarket.Infrastructure.Database.Context
         public DbSet<CafezesMarket.Models.Credencial> Credencial { get; set; }
 
         public DbSet<CafezesMarket.Models.Produto> Produto { get; set; }
+
+        public DbSet<CafezesMarket.Models.Cliente> Cliente { get; set; }
     }
 }

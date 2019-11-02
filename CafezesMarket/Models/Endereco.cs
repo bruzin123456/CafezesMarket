@@ -10,6 +10,7 @@ namespace CafezesMarket.Models
         public int Numero { get; set; }
         public string Complemento { get; set; }
         public string Cidade { get; set; }
+        public bool Ativo { get; set; }
 
         public virtual Estado Estado { get;set; }
     }
