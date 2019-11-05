@@ -1,4 +1,4 @@
-﻿@model CafezesMarket.Models.Cliente
+﻿@model CafezesMarket.Models.SignUp
 
 @{
     ViewData["Title"] = "SignUp";
@@ -25,11 +25,21 @@
             <label asp-for="Email" class="sr-only">E-mail</label>
             <input asp-for="Email" type="email" id="inputEmail" class="form-control" placeholder="E-mail" required>
         </div>
+        <div>
+            <label asp-for="Senha" class="sr-only">Senha</label>
+            <input asp-for="Senha" type="password" id="inputSenha" class="form-control" placeholder="Senha" required>
+        </div>
+        <div>
+            <label asp-for="ConfirmaSenha" class="sr-only">Confirma senha</label>
+            <input asp-for="ConfirmaSenha" type="password" id="inputConfirmaSenha" class="form-control" placeholder="Confirma senha" required >
+        </div>
 
         <span asp-validation-for="Nome" class="text-danger"></span>
         <span asp-validation-for="Cpf" class="text-danger"></span>
         <span asp-validation-for="Nascimento" class="text-danger"></span>
         <span asp-validation-for="Email" class="text-danger"></span>
+        <span asp-validation-for="Senha" class="text-danger"></span>
+        <span asp-validation-for="ConfirmaSenha" class="text-danger"></span>
 
         <br />
         <input class="btn btn-lg btn-info btn-block" type="submit" value="Cadastre-se" />
@@ -43,15 +53,12 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">Cadastro</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
                     </div>
                     <div class="modal-body">
                         <p>@ViewBag.Mensagem</p>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-warning" data-dismiss="modal">Ok</button>
+                        <a class="btn btn-warning" href="/Login/SignUp" role="button" data-dismiss="modal">Ok</a>
                     </div>
                 </div>
             </div>

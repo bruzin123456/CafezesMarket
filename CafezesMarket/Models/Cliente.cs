@@ -15,6 +15,20 @@ namespace CafezesMarket.Models
         public virtual List<Pedido> Pedidos { get; set; }
         public virtual List<Endereco> Enderecos { get; set; }
 
+        public Cliente()
+        {
+            
+        }
+
+        public Cliente(SignUp model)
+        {
+            this.Nome = model.Nome;
+            this.Cpf = model.Cpf;
+            this.Nascimento = model.Nascimento;
+            this.Email = model.Email;
+        }
+
+
 
         public bool EhValidoCpf()
         {

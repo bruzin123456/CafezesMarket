@@ -9,7 +9,8 @@
             DataNascimentoInvalida = 2,
             EmailJaExiste = 3,
             CpfJaExiste = 4,
-            ErroSistema = 5
+            SenhaInvalida = 5,
+            ErroSistema = 6
         }
     }
 }

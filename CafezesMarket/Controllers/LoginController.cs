@@ -142,7 +142,7 @@ namespace CafezesMarket.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> SignUp(Cliente model)
+        public async Task<IActionResult> SignUp(SignUp model)
         {
             try
             {
@@ -165,6 +165,10 @@ namespace CafezesMarket.Controllers
 
                     case CadastroCliente.CpfJaExiste:
                         ModelState.AddModelError("Cpf", "Cpf já cadastrado. Verifique...");
+                        break;
+
+                    case CadastroCliente.SenhaInvalida:
+                        ModelState.AddModelError("Senha", "Algo de errado com a senha... :(");
                         break;
 
                     case CadastroCliente.ErroSistema:
