@@ -4,12 +4,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using CafezesMarket.Models;
 using CafezesMarket.Services.Interfaces;
+using System;
 
 namespace CafezesMarket.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly ILogger _logger;
         private readonly IProdutoService _produtoService;
 
         public HomeController(ILogger<HomeController> logger,
@@ -19,13 +20,21 @@ namespace CafezesMarket.Controllers
             _produtoService = produtoService;
         }
 
-        [ResponseCache(Duration = 120)]
         public async Task<IActionResult> Index()
         {
-            var tops = await _produtoService
-                .ObterMaisVendidosAsync(pageSize: 4);
+            try
+            {
+                var tops = await _produtoService
+                    .ObterMaisVendidosAsync(pageSize: 4);
 
-            return View(model: tops);
+                return View(model: tops);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Home - Index - Erro");
+
+                throw;
+            }
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

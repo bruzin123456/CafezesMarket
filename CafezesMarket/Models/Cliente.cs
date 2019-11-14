@@ -12,8 +12,8 @@ namespace CafezesMarket.Models
         public string Email { get; set; }
 
         public virtual Credencial Credencial { get; set; }
-        public virtual List<Pedido> Pedidos { get; set; }
-        public virtual List<Endereco> Enderecos { get; set; }
+        public virtual IList<Pedido> Pedidos { get; set; }
+        public virtual IList<Endereco> Enderecos { get; set; }
 
         public Cliente()
         {

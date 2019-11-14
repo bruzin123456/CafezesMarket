@@ -6,6 +6,7 @@ namespace CafezesMarket.Services.Interfaces
 {
     public interface IClienteService : IBaseService
     {
+        Task<Cliente> ObterAsync(long id);
         Task<CadastroCliente> InserirClienteAsync(SignUp model);
     }
 }

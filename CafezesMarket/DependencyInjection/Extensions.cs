@@ -2,6 +2,7 @@
 using CafezesMarket.Services;
 using CafezesMarket.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,16 +14,16 @@ namespace CafezesMarket.DependencyInjection
     {
         public static IServiceCollection AddCommons(this IServiceCollection services)
         {
-            services.AddResponseCaching(options =>
-            {
-                options.UseCaseSensitivePaths = false;
-            });
+            services.AddMemoryCache();
 
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(configure =>
                 {
-                    configure.ExpireTimeSpan = TimeSpan.FromMinutes(5);
+                    configure.LoginPath = new PathString("/Login/SignIn");
+                    configure.LogoutPath = new PathString("/Login/SignOut");
+
                     configure.SlidingExpiration = true;
+                    configure.ExpireTimeSpan = TimeSpan.FromMinutes(5);
                 });
 
             return services;

@@ -65,10 +65,10 @@ namespace CafezesMarket.Controllers
 
                 if (login.Valido)
                 {
-                    _logger.LogInformation($"Login - SignIn - Sucesso - User {User.Identity.Name}");
+                    _logger.LogInformation($"Login - SignIn - Sucesso - User {model.Email}");
 
                     await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
-                            login.Principal);
+                        login.Principal);
 
                     if (!string.IsNullOrWhiteSpace(login.ReturnUrl) && Url.IsLocalUrl(login.ReturnUrl))
                     {
@@ -80,12 +80,15 @@ namespace CafezesMarket.Controllers
                     }
                 }
 
-                _logger.LogInformation($"Login - SignIn - Falhou - User {User.Identity.Name}");
+                _logger.LogInformation($"Login - SignIn - Falhou - User {model?.Email}");
 
                 var mensanges = login.Mensagem?.Split(';',
                     StringSplitOptions.RemoveEmptyEntries);
 
-                ModelState.AddModelError(mensanges[0], mensanges[1]);
+                if (mensanges?.Length > 0)
+                {
+                    ModelState.AddModelError(mensanges[0], mensanges[1]);
+                }
 
                 return View(login);
             }
@@ -93,13 +96,13 @@ namespace CafezesMarket.Controllers
             {
                 _logger.LogError(ex, "Login - SignIn Post - Erro");
 
-                return StatusCode((int)HttpStatusCode.InternalServerError,
-                    "Desculpe, ocorreu um erro.");
+                throw;
             }
         }
 
 
         [AcceptVerbs("Get", "Post")]
+        [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         public async Task<IActionResult> SignOut()
         {
             try
@@ -126,11 +129,11 @@ namespace CafezesMarket.Controllers
 
 
         [HttpGet]
-        public async Task<IActionResult> SignUp()
+        [ResponseCache(Duration = 120)]
+        public IActionResult SignUp()
         {
             try
             {
-                await Task.Delay(100);
                 return View();
             }
             catch (Exception ex)

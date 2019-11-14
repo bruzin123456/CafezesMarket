@@ -42,10 +42,9 @@ namespace CafezesMarket
             app.UseStaticFiles();
 
             app.UseRouting();
-            app.UseResponseCaching();
 
-            app.UseAuthorization();
             app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

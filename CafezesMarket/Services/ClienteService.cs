@@ -18,6 +18,24 @@ namespace CafezesMarket.Services
 
         }
 
+
+        public async Task<Cliente> ObterAsync(long id)
+        {
+            var cliente = await _context.Set<Cliente>()
+                .Include(cli => cli.Enderecos)
+                .Where(cli => cli.Id.Equals(id))
+                .SingleOrDefaultAsync();
+
+            await _context.Entry(cliente)
+                .Collection(cli => cli.Pedidos)
+                .Query().OrderByDescending(pedido => pedido.Emissao)
+                .Take(10)
+                .AsNoTracking()
+                .LoadAsync();
+
+            return cliente;
+        }
+
         public async Task<CadastroCliente> InserirClienteAsync(SignUp model)
         {
             var cliente = new Cliente(model);
@@ -66,5 +84,6 @@ namespace CafezesMarket.Services
 
             return CadastroCliente.Sucesso;
         }
+
     }
 }

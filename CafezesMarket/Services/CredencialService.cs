@@ -58,6 +58,7 @@ namespace CafezesMarket.Services
         private ClaimsPrincipal CriarPermissao(Cliente cliente)
         {
             var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
+            identity.AddClaim(new Claim(ClaimTypes.PrimarySid, cliente.Id.ToString()));
             identity.AddClaim(new Claim(ClaimTypes.Name, cliente.Nome));
             identity.AddClaim(new Claim(ClaimTypes.Email, cliente.Email));
             identity.AddClaim(new Claim(ClaimTypes.DateOfBirth, cliente.Nascimento.ToShortDateString()));

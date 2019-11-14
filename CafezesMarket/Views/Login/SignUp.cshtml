@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="~/css/signup.css" />
 
 <div class="text-center">
-    <form class="form-signin" name="form-signup" method="post" asp-controller="Login" asp-action="SignUp">
+    <form class="form-signin" name="form-signup" autocomplete="off" method="post" asp-controller="Login" asp-action="SignUp">
         <h1 class="h3 mb-3 font-weight-normal">bem-vindo</h1>
         <div>
             <label asp-for="Nome" class="sr-only">Nome</label>
@@ -23,15 +23,15 @@
         </div>
         <div>
             <label asp-for="Email" class="sr-only">E-mail</label>
-            <input asp-for="Email" type="email" id="inputEmail" class="form-control" placeholder="E-mail" required>
+            <input asp-for="Email" type="email" id="inputEmail" class="form-control" placeholder="E-mail" autocomplete="off" required>
         </div>
         <div>
             <label asp-for="Senha" class="sr-only">Senha</label>
-            <input asp-for="Senha" type="password" id="inputSenha" class="form-control" placeholder="Senha" required>
+            <input asp-for="Senha" type="password" id="inputSenha" class="form-control" placeholder="Senha" autocomplete="off" required>
         </div>
         <div>
             <label asp-for="ConfirmaSenha" class="sr-only">Confirma senha</label>
-            <input asp-for="ConfirmaSenha" type="password" id="inputConfirmaSenha" class="form-control" placeholder="Confirma senha" required >
+            <input asp-for="ConfirmaSenha" type="password" id="inputConfirmaSenha" class="form-control" placeholder="Confirma senha" autocomplete="off" required >
         </div>
 
         <span asp-validation-for="Nome" class="text-danger"></span>
@@ -58,7 +58,7 @@
                         <p>@ViewBag.Mensagem</p>
                     </div>
                     <div class="modal-footer">
-                        <a class="btn btn-warning" href="/Login" role="button" data-dismiss="modal">Continuar...</a>
+                        <a class="btn btn-warning" href="/Login" role="button" @*data-dismiss="modal"*@>Continuar...</a>
                     </div>
                 </div>
             </div>

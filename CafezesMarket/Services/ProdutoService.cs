@@ -2,6 +2,7 @@
 using CafezesMarket.Models;
 using CafezesMarket.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -12,20 +13,32 @@ namespace CafezesMarket.Services
 {
     public class ProdutoService : BaseService, IProdutoService
     {
-        public ProdutoService(ILogger<ProdutoService> logger,
-            DefaultContext context) : base (logger, context)
-        {
+        private const string _prefixCache = "produto_cache";
 
+        private readonly IMemoryCache _cache;
+        private readonly TimeSpan _expirationCache;
+
+        public ProdutoService(ILogger<ProdutoService> logger,
+            DefaultContext context, IMemoryCache cache) : base(logger, context)
+        {
+            _cache = cache;
+            _expirationCache = TimeSpan.FromSeconds(120);
         }
 
 
         public async Task<Produto> ObterAsync(long id)
         {
-            var produto = await _context.Set<Produto>()
-                .Include(prod => prod.Fotos)
-                .Where(prod => prod.Ativo && prod.Id.Equals(id))
-                .AsNoTracking()
-                .FirstOrDefaultAsync();
+            var produto = await _cache.GetOrCreateAsync(
+                $"{_prefixCache}_obter_{id}", entry =>
+                {
+                    entry.AbsoluteExpirationRelativeToNow = _expirationCache;
+
+                    return _context.Set<Produto>()
+                    .Include(prod => prod.Fotos)
+                    .Where(prod => prod.Ativo && prod.Id.Equals(id))
+                    .AsNoTracking()
+                    .SingleOrDefaultAsync();
+                });
 
             if (produto == null)
             {
@@ -37,15 +50,19 @@ namespace CafezesMarket.Services
 
         public async Task<int> CountAsync(bool comEstoque = true)
         {
-            var query = _context.Set<Produto>()
-                .Where(prod => prod.Ativo);
+            var count = await _cache.GetOrCreateAsync(
+                $"{_prefixCache}_count_{comEstoque}", entry =>
+                {
+                    var query = _context.Set<Produto>()
+                        .Where(prod => prod.Ativo);
 
-            if (comEstoque)
-            {
-                query = query.Where(prod => prod.Quantidade > 0);
-            }
+                    if (comEstoque)
+                    {
+                        query = query.Where(prod => prod.Quantidade > 0);
+                    }
 
-            var count = await query.CountAsync();
+                    return query.CountAsync();
+                });
 
             return count;
         }
@@ -62,26 +79,31 @@ namespace CafezesMarket.Services
                 throw new ArgumentOutOfRangeException(nameof(pageSize), "O tamanho da página deve ser maior ou igual a 1");
             }
 
-            var query = _context.Set<Produto>()
-                .Include(produto => produto.Fotos)
-                .Where(prod => prod.Ativo);
+            var produtos = await _cache.GetOrCreateAsync(
+                $"{_prefixCache}_vendidos_{page}_{pageSize}_{comEstoque}", entry =>
+                {
+                    entry.AbsoluteExpirationRelativeToNow = _expirationCache;
 
-            if (comEstoque)
-            {
-                query = query.Where(prod => prod.Quantidade > 0);
-            }
+                    var query = _context.Set<Produto>()
+                        .Include(produto => produto.Fotos)
+                        .Where(prod => prod.Ativo);
 
-            var produtos = await query
-                .OrderByDescending(prod =>
-                    prod.PedidosItems.Where(item => item.Pedido.SituacaoId.Equals(5)).Sum(item => item.Quantidade))
-                .ThenByDescending(prod =>
-                    prod.PedidosItems.Where(item => item.Pedido.SituacaoId.Equals(5)).Average(item => item.Preco))
-                .ThenByDescending(prod => prod.Preco)
-                .ThenByDescending(prod => prod.Quantidade)
-                .Skip((page - 1) * pageSize)
-                .Take(pageSize)
-                .AsNoTracking()
-                .ToListAsync();
+                    if (comEstoque)
+                    {
+                        query = query.Where(prod => prod.Quantidade > 0);
+                    }
+
+                    return query.OrderByDescending(prod =>
+                            prod.PedidosItems.Where(item => item.Pedido.SituacaoId.Equals(5)).Sum(item => item.Quantidade))
+                        .ThenByDescending(prod =>
+                            prod.PedidosItems.Where(item => item.Pedido.SituacaoId.Equals(5)).Average(item => item.Preco))
+                        .ThenByDescending(prod => prod.Preco)
+                        .ThenByDescending(prod => prod.Quantidade)
+                        .Skip((page - 1) * pageSize)
+                        .Take(pageSize)
+                        .AsNoTracking()
+                        .ToListAsync();
+                });
 
             return produtos;
         }
