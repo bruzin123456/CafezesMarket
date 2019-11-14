@@ -18,8 +18,9 @@ namespace CafezesMarket.Services
 
         }
 
-        public async Task<CadastroCliente> InserirClienteAsync(Cliente cliente)
+        public async Task<CadastroCliente> InserirClienteAsync(SignUp model)
         {
+            var cliente = new Cliente(model);
             if (!cliente.EhValidoCpf())
             {
                 return CadastroCliente.CpfInvalido;
@@ -28,7 +29,12 @@ namespace CafezesMarket.Services
             {
                 return CadastroCliente.DataNascimentoInvalida;
             }
-
+            else if (string.IsNullOrWhiteSpace(model.Senha) ||
+                model.Senha.Length < 5 || !model.Senha.Equals(model.ConfirmaSenha))
+            {
+                return CadastroCliente.SenhaInvalida;   
+            }
+            
             var clienteExistente = await _context.Set<Cliente>()
                 .Where(cli => cli.Email.Equals(cliente.Email))
                 .AsNoTracking()
@@ -51,7 +57,7 @@ namespace CafezesMarket.Services
 
             cliente.Credencial = new Credencial()
             {
-                Senha = "123456"
+                Senha = model.Senha
             };
             cliente.Credencial.CriptografarSenha();
 
