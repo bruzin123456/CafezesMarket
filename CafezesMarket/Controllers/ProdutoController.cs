@@ -22,6 +22,7 @@ namespace CafezesMarket.Controllers
 
         [HttpGet]
         [Route("Produto")]
+        [ResponseCache(Duration = 60)]
         public async Task<IActionResult> Index(int page = 1, int pageSize = 6)
         {
             try
@@ -50,6 +51,7 @@ namespace CafezesMarket.Controllers
 
         [HttpGet]
         [Route("Produto/{id}")]
+        [ResponseCache(Duration = 60)]
         public async Task<IActionResult> Detalhe([FromRoute] long id)
         {
             try

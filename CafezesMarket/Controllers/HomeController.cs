@@ -19,6 +19,7 @@ namespace CafezesMarket.Controllers
             _produtoService = produtoService;
         }
 
+        [ResponseCache(Duration = 120)]
         public async Task<IActionResult> Index()
         {
             var tops = await _produtoService

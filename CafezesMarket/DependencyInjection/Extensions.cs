@@ -13,6 +13,11 @@ namespace CafezesMarket.DependencyInjection
     {
         public static IServiceCollection AddCommons(this IServiceCollection services)
         {
+            services.AddResponseCaching(options =>
+            {
+                options.UseCaseSensitivePaths = false;
+            });
+
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(configure =>
                 {
