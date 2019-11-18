@@ -22,16 +22,26 @@ namespace CafezesMarket.Services
         public async Task<Cliente> ObterAsync(long id)
         {
             var cliente = await _context.Set<Cliente>()
-                .Include(cli => cli.Enderecos)
                 .Where(cli => cli.Id.Equals(id))
                 .SingleOrDefaultAsync();
 
-            await _context.Entry(cliente)
-                .Collection(cli => cli.Pedidos)
-                .Query().OrderByDescending(pedido => pedido.Emissao)
-                .Take(10)
-                .AsNoTracking()
-                .LoadAsync();
+            if (cliente != null)
+            {
+                await _context.Entry(cliente)
+                    .Collection(cli => cli.Pedidos)
+                    .Query()
+                    .Include(pedido => pedido.Situacao)
+                    .OrderByDescending(pedido => pedido.Emissao)
+                    .Take(10)
+                    .LoadAsync();
+
+                await _context.Entry(cliente)
+                    .Collection(cli => cli.Enderecos)
+                    .Query()
+                    .Include(endereco => endereco.Estado)
+                    .Where(endereco => endereco.Ativo)
+                    .LoadAsync();
+            }
 
             return cliente;
         }
@@ -50,15 +60,15 @@ namespace CafezesMarket.Services
             else if (string.IsNullOrWhiteSpace(model.Senha) ||
                 model.Senha.Length < 5 || !model.Senha.Equals(model.ConfirmaSenha))
             {
-                return CadastroCliente.SenhaInvalida;   
+                return CadastroCliente.SenhaInvalida;
             }
-            
+
             var clienteExistente = await _context.Set<Cliente>()
                 .Where(cli => cli.Email.Equals(cliente.Email))
                 .AsNoTracking()
-                .SingleOrDefaultAsync();
+                .AnyAsync();
 
-            if (clienteExistente != null)
+            if (clienteExistente)
             {
                 return CadastroCliente.EmailJaExiste;
             }
@@ -66,9 +76,9 @@ namespace CafezesMarket.Services
             clienteExistente = await _context.Set<Cliente>()
                 .Where(cli => cli.Cpf.Equals(cliente.Cpf))
                 .AsNoTracking()
-                .SingleOrDefaultAsync();
+                .AnyAsync();
 
-            if (clienteExistente != null)
+            if (clienteExistente)
             {
                 return CadastroCliente.CpfJaExiste;
             }
@@ -85,5 +95,22 @@ namespace CafezesMarket.Services
             return CadastroCliente.Sucesso;
         }
 
+        public async Task DesativarEnderecoAsync(long userId, long enderecoId)
+        {
+            var endereco = await _context.Set<Endereco>()
+                .Where(ende => ende.Id.Equals(enderecoId) &&
+                    ende.ClienteId.Equals(userId) && ende.Ativo)
+                .SingleOrDefaultAsync();
+
+            if (endereco == null)
+            {
+                throw new ArgumentException("Endereço não encontrado ou já inativado",
+                    nameof(enderecoId));
+            }
+
+            endereco.Ativo = false;
+
+            await _context.SaveChangesAsync();
+        }
     }
 }

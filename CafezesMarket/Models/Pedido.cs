@@ -10,8 +10,8 @@ namespace CafezesMarket.Models
         public int SituacaoId { get; set; }
         public DateTime Emissao { get; set; }
 
+        public PedidoSituacao Situacao { get; set; }
         public virtual Cliente Cliente { get; set; }
-        public virtual PedidoSituacao Situacao { get; set; }
         public virtual List<PedidoItem> Itens { get; set; }
     }
 }

@@ -14,7 +14,6 @@ namespace CafezesMarket.Services
     public class ProdutoService : BaseService, IProdutoService
     {
         private const string _prefixCache = "produto_cache";
-
         private readonly IMemoryCache _cache;
         private readonly TimeSpan _expirationCache;
 
@@ -67,8 +66,16 @@ namespace CafezesMarket.Services
             return count;
         }
 
+        [Obsolete]
         public async Task<IList<Produto>> ObterMaisVendidosAsync(int page = 1, int pageSize = 10, bool comEstoque = true)
         {
+            //var x = @"
+            //    insert into [endereco](cliente_id, apelido, logradouro, numero, cidade, estado_id)
+            //    values(3, 'residencial', 'Rua Caucaso', 352, 'Santo André', 25)";
+            //_context.Database.ExecuteSqlCommand(x);
+
+
+
             if (page <= 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(page), "A págine deve ser maior ou igual a 1");

@@ -24,7 +24,7 @@ namespace CafezesMarket.Infrastructure.Database.Mapping
 
             builder.Property(model => model.EstadoId)
                 .HasColumnName("estado_id")
-                .HasColumnType("bigint")
+                .HasColumnType("int")
                 .IsRequired();
 
             builder.Property(model => model.Apelido)
@@ -60,6 +60,10 @@ namespace CafezesMarket.Infrastructure.Database.Mapping
                 .HasColumnType("bit")
                 .HasDefaultValue(true)
                 .IsRequired();
+
+            builder.HasOne(model => model.Cliente)
+                .WithMany(model => model.Enderecos)
+                .HasForeignKey(endereco => endereco.ClienteId);
 
             builder.HasOne(model => model.Estado)
                 .WithMany()

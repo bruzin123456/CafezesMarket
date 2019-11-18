@@ -16,6 +16,7 @@ namespace CafezesMarket.DependencyInjection
         {
             services.AddMemoryCache();
 
+            services.AddAntiforgery(options => options.HeaderName = "XSRF-TOKEN");
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(configure =>
                 {

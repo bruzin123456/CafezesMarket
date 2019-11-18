@@ -8,5 +8,7 @@ namespace CafezesMarket.Services.Interfaces
     {
         Task<Cliente> ObterAsync(long id);
         Task<CadastroCliente> InserirClienteAsync(SignUp model);
+
+        Task DesativarEnderecoAsync(long userId, long enderecoId);
     }
 }

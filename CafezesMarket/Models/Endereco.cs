@@ -12,6 +12,22 @@ namespace CafezesMarket.Models
         public string Cidade { get; set; }
         public bool Ativo { get; set; }
 
-        public virtual Estado Estado { get;set; }
+
+        public virtual Cliente Cliente { get; set; }
+        public Estado Estado { get; set; }
+
+        public string ToExibicao()
+        {
+            var texto = string.Concat(
+                this.Logradouro,
+                ", ",
+                this.Numero.ToString(),
+                " - ",
+                this.Cidade,
+                " - ",
+                this.Estado?.Sigla);
+
+            return texto;
+        }
     }
 }

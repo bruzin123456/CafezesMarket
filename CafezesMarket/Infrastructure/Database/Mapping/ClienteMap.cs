@@ -49,7 +49,7 @@ namespace CafezesMarket.Infrastructure.Database.Mapping
                 .HasForeignKey<Credencial>(credencial => credencial.ClienteId);
 
             builder.HasMany(model => model.Enderecos)
-                .WithOne()
+                .WithOne(model => model.Cliente)
                 .HasForeignKey(endereco => endereco.ClienteId);
 
             builder.HasMany(model => model.Pedidos)
