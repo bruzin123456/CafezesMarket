@@ -10,28 +10,28 @@
     <form class="form-signin" name="form-signup" autocomplete="off" method="post" asp-controller="Login" asp-action="SignUp">
         <h1 class="h3 mb-3 font-weight-normal">bem-vindo</h1>
         <div>
-            <label asp-for="Nome" class="sr-only">Nome</label>
-            <input asp-for="Nome" type="text" id="inputNome" class="form-control" placeholder="Nome" required>
+            <label asp-for="Nome" class="sr-only">nome</label>
+            <input asp-for="Nome" type="text" id="inputNome" class="form-control" placeholder="nome" required>
         </div>
         <div>
-            <label asp-for="Cpf" class="sr-only">Cpf</label>
-            <input asp-for="Cpf" type="number" id="inputCpf" class="form-control" placeholder="Cpf" required>
+            <label asp-for="Cpf" class="sr-only">cpf</label>
+            <input asp-for="Cpf" type="number" id="inputCpf" class="form-control" placeholder="cpf" required>
         </div>
         <div>
-            <label asp-for="Nascimento" class="sr-only">Data Nascimento</label>
-            <input asp-for="Nascimento" type="date" id="inputNascimento" class="form-control" placeholder="Data Nascimento" required>
+            <label asp-for="Nascimento" class="sr-only">data nascimento</label>
+            <input asp-for="Nascimento" type="date" id="inputNascimento" class="form-control" placeholder="data nascimento" required>
         </div>
         <div>
-            <label asp-for="Email" class="sr-only">E-mail</label>
-            <input asp-for="Email" type="email" id="inputEmail" class="form-control" placeholder="E-mail" autocomplete="off" required>
+            <label asp-for="Email" class="sr-only">e-mail</label>
+            <input asp-for="Email" type="email" id="inputEmail" class="form-control" placeholder="e-mail" autocomplete="off" required>
         </div>
         <div>
-            <label asp-for="Senha" class="sr-only">Senha</label>
-            <input asp-for="Senha" type="password" id="inputSenha" class="form-control" placeholder="Senha" autocomplete="off" required>
+            <label asp-for="Senha" class="sr-only">senha</label>
+            <input asp-for="Senha" type="password" id="inputSenha" class="form-control" placeholder="senha" autocomplete="off" required>
         </div>
         <div>
-            <label asp-for="ConfirmaSenha" class="sr-only">Confirma senha</label>
-            <input asp-for="ConfirmaSenha" type="password" id="inputConfirmaSenha" class="form-control" placeholder="Confirma senha" autocomplete="off" required >
+            <label asp-for="ConfirmaSenha" class="sr-only">confirma senha</label>
+            <input asp-for="ConfirmaSenha" type="password" id="inputConfirmaSenha" class="form-control" placeholder="confirma senha" autocomplete="off" required>
         </div>
 
         <span asp-validation-for="Nome" class="text-danger"></span>
@@ -42,8 +42,8 @@
         <span asp-validation-for="ConfirmaSenha" class="text-danger"></span>
 
         <br />
-        <input class="btn btn-lg btn-info btn-block" type="submit" value="Cadastre-se" />
-        <a class="btn btn-md btn-dark btn-block" href="/Login" role="button">Já sou cadastrado! Entrar</a>
+        <input class="btn btn-lg btn-info btn-block" type="submit" value="cadastre-se" />
+        <a class="btn btn-md btn-dark btn-block" href="/Login" role="button">já sou cadastrado! entrar</a>
     </form>
 
     @if (!string.IsNullOrWhiteSpace(ViewBag.Mensagem))
@@ -52,13 +52,13 @@
             <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Cadastro</h5>
+                        <h5 class="modal-title">cadastro</h5>
                     </div>
                     <div class="modal-body">
                         <p>@ViewBag.Mensagem</p>
                     </div>
                     <div class="modal-footer">
-                        <a class="btn btn-warning" href="/Login" role="button" @*data-dismiss="modal"*@>Continuar...</a>
+                        <a class="btn btn-warning" href="/Login" role="button">continuar...</a>
                     </div>
                 </div>
             </div>
@@ -66,7 +66,7 @@
 
         <script type="text/javascript">
             document.addEventListener("DOMContentLoaded", function () {
-                $('#cadastroModal').modal({backdrop: 'static', keyboard: false}) 
+                $('#cadastroModal').modal({ backdrop: 'static', keyboard: false })
                 $('#cadastroModal').modal('show');
             });
         </script>

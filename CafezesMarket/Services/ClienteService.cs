@@ -95,6 +95,35 @@ namespace CafezesMarket.Services
             return CadastroCliente.Sucesso;
         }
 
+
+        public async Task<CadastroEndereco> InserirEnderecoAsync(NovoEndereco novoEndereco)
+        {
+            if (novoEndereco == null)
+            {
+                throw new ArgumentNullException(nameof(novoEndereco));
+            }
+
+            var estado = await _context.Set<Estado>()
+                .Where(est => est.Sigla.Equals(novoEndereco.Estado.ToUpper()))
+                .SingleOrDefaultAsync();
+
+            if (estado == null)
+            {
+                return CadastroEndereco.EstadoInvalido;
+            }
+
+            var endereco = new Endereco(novoEndereco)
+            {
+                Estado = estado
+            };
+
+            await _context.Set<Endereco>()
+                .AddAsync(endereco);
+            await _context.SaveChangesAsync();
+
+            return CadastroEndereco.Sucesso;
+        }
+
         public async Task DesativarEnderecoAsync(long userId, long enderecoId)
         {
             var endereco = await _context.Set<Endereco>()

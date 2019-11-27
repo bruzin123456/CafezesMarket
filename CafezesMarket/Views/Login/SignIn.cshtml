@@ -11,17 +11,17 @@
         <h1 class="h3 mb-3 font-weight-normal">bem-vindo</h1>
         <div>
             <label asp-for="Email" class="sr-only">E-mail</label>
-            <input asp-for="Email" type="email" id="inputEmail" class="form-control" placeholder="E-mail" required autofocus>
+            <input asp-for="Email" type="email" id="inputEmail" class="form-control" placeholder="e-mail" required autofocus>
         </div>
         <div>
             <label asp-for="Senha" class="sr-only">Senha</label>
-            <input asp-for="Senha" type="password" id="inputPassword" class="form-control" placeholder="Senha" required>
+            <input asp-for="Senha" type="password" id="inputPassword" class="form-control" placeholder="senha" required>
         </div>
         <span asp-validation-for="Email"></span>
         <span asp-validation-for="Senha"></span>
 
         <br />
-        <input class="btn btn-lg btn-dark btn-block" type="submit" value="Entrar" />
-        <a class="btn btn-md btn-info btn-block" href="/Login/SignUp" role="button">Não tem conta? Cadastre-se</a>
+        <input class="btn btn-lg btn-dark btn-block" type="submit" value="entrar" />
+        <a class="btn btn-md btn-info btn-block" href="/Login/SignUp" role="button">n&atilde;o tem conta? cadastre-se</a>
     </form>
 </div>

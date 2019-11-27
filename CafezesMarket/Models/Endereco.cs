@@ -1,3 +1,6 @@
+using System;
+using System.ComponentModel.DataAnnotations;
+
 namespace CafezesMarket.Models
 {
     public class Endereco
@@ -14,7 +17,39 @@ namespace CafezesMarket.Models
 
 
         public virtual Cliente Cliente { get; set; }
-        public Estado Estado { get; set; }
+        public virtual Estado Estado { get; set; }
+
+        public Endereco()
+        {
+
+        }
+
+        public Endereco(NovoEndereco novoEndereco)
+        {
+            if (novoEndereco == null)
+            {
+                throw new ArgumentNullException(nameof(novoEndereco));
+            }
+
+            this.ClienteId = novoEndereco.ClienteId;
+
+            this.Apelido = novoEndereco.Apelido.Trim().ToLower();
+            this.Logradouro = novoEndereco.Logradouro.Trim();
+            this.Numero = novoEndereco.Numero;
+
+            if (string.IsNullOrWhiteSpace(novoEndereco.Complemento))
+            {
+                this.Complemento = null;
+            }
+            else
+            {
+                this.Complemento = novoEndereco.Complemento.Trim().ToLower();
+            }
+
+            this.Cidade = novoEndereco.Cidade.Trim().ToLower();
+
+            Ativo = true;
+        }
 
         public string ToExibicao()
         {

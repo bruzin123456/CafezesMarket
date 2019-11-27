@@ -17,7 +17,7 @@
     </div>
 
     <div class="my-3 p-3 bg-white rounded box-shadow">
-        <h6 class="border-bottom border-gray pb-2 mb-0">Pedidos recentes</h6>
+        <h6 class="border-bottom border-gray pb-2 mb-0">pedidos recentes</h6>
         @foreach (var pedido in Model.Pedidos)
         {
             <div class="media text-muted pt-3">
@@ -28,48 +28,96 @@
             </div>
         }
 
-        @if (Model.Pedidos.Count == 0)
+        @if (Model?.Pedidos?.Count == 0)
         {
             <div class="media text-muted pt-3">
                 <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
-                    Voc&ecirc; ainda n&atilde;o possu&iacute; pedidos.
+                    voc&ecirc; ainda n&atilde;o possu&iacute; pedidos.
                 </p>
             </div>
         }
-        else if (Model.Pedidos.Count > 10)
+        else if (Model?.Pedidos?.Count > 10)
         {
             <small class="d-block text-right mt-3">
-                <a href="#">Todos os pedidos</a>
+                <a href="#">todos os pedidos</a>
             </small>
         }
     </div>
 
     <div class="my-3 p-3 bg-white rounded box-shadow">
-        <h6 class="border-bottom border-gray pb-2 mb-0">Endere&ccedil;os</h6>
+        <h6 class="border-bottom border-gray pb-2 mb-0">endere&ccedil;os</h6>
         @foreach (var endereco in Model.Enderecos)
         {
             <div class="media text-muted pt-3" id="divEndereco_@endereco.Id">
                 <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
                     <div class="d-flex justify-content-between align-items-center w-100">
                         <strong class="text-gray-dark">@endereco.ToExibicao()</strong>
-                        <button class="btn btn-link" onclick="removerEndereco(@endereco.Id)">Remover</button>
+                        <button class="btn btn-sm btn-link" onclick="removerEndereco(@endereco.Id)">remover</button>
                     </div>
                     <span class="d-block">@(endereco.Apelido?.ToLower() ?? string.Empty)</span>
                 </div>
             </div>
         }
 
-        @if (Model.Enderecos.Count == 0)
+        @if (Model?.Enderecos?.Count == 0)
         {
             <div class="media text-muted pt-3">
-                <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
-                    <div class="d-flex justify-content-between align-items-center w-100">
-                        Voc&ecirc; ainda n&atilde;o cadastrou nenhum endere&ccedil;o.
-                        <a href="#">Cadastrar</a>
-                    </div>
-                </div>
+                <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+                    voc&ecirc; n&atilde;o possu&iacute; endere&ccedil;os cadastrados.
+                </p>
             </div>
         }
+
+        <small class="d-block text-right mt-3">
+            <button class="btn btn-sm btn-link" data-toggle="modal" data-target="#adicionarEnderecoModal">cadastrar</button>
+        </small>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="adicionarEnderecoModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">cadastrar endere&ccedil;o</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-center">
+                <form class="form-endereco" id="form-endereco" name="form-endereco" autocomplete="off">
+                    <div>
+                        <label for="inputApelido" class="sr-only">apelido</label>
+                        <input type="text" id="inputApelido" name="Apelido" class="form-control" placeholder="apelido" required>
+                    </div>
+                    <div>
+                        <label for="inputLogradouro" class="sr-only">logradouro</label>
+                        <input type="text" id="inputLogradouro" name="Logradouro" class="form-control" placeholder="logradouro" required>
+                    </div>
+                    <div>
+                        <label for="inputNumero" class="sr-only">n&uacute;mero</label>
+                        <input type="number" id="inputNumero" name="Numero" class="form-control" placeholder="n&uacute;mero" required>
+                    </div>
+                    <div>
+                        <label for="inputComplemento" class="sr-only">complemento</label>
+                        <input type="text" id="inputComplemento" name="complemento" class="form-control" placeholder="complemento" required>
+                    </div>
+                    <div>
+                        <label for="inputCidade" class="sr-only">cidade</label>
+                        <input type="text" id="inputCidade" name="Cidade" class="form-control" placeholder="cidade" required>
+                    </div>
+                    <div>
+                        <label for="inputEstado" class="sr-only">estado</label>
+                        <input type="text" id="inputEstado" name="Estado" class="form-control" placeholder="estado" maxlength="2" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">cancelar</button>
+                <button class="btn btn btn-info" type="submit" onclick="adicionarEndereco()">cadastrar</button>
+            </div>
+        </div>
     </div>
 </div>
 

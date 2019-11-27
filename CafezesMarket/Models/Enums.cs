@@ -12,5 +12,11 @@
             SenhaInvalida = 5,
             ErroSistema = 6
         }
+
+        public enum CadastroEndereco : int
+        {
+            Sucesso = 0,
+            EstadoInvalido = 1
+        }
     }
 }

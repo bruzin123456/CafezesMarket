@@ -18,26 +18,26 @@
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link" asp-area="" asp-controller="Produto" asp-action="">Produtos</a>
+                        <a class="nav-link" asp-area="" asp-controller="Produto" asp-action="">produtos</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" asp-area="" asp-controller="Carrinho" asp-action="">Carrinho</a>
+                        <a class="nav-link" asp-area="" asp-controller="Carrinho" asp-action="">carrinho</a>
                     </li>
                 </ul>
                 <ul class="navbar-nav ml-auto">
                     @if (Context.User.Identity.IsAuthenticated)
                     {
                         <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Cliente" asp-action="">Minha conta</a>
+                            <a class="nav-link" asp-area="" asp-controller="Cliente" asp-action="">minha conta</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Login" asp-action="SignOut">Sair</a>
+                            <a class="nav-link" asp-area="" asp-controller="Login" asp-action="SignOut">sair</a>
                         </li>
                     }
                     else
                     {
                         <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Login" asp-action="">Entrar</a>
+                            <a class="nav-link" asp-area="" asp-controller="Login" asp-action="">entrar</a>
                         </li>
                     }
                 </ul>
