@@ -21,7 +21,9 @@ namespace CafezesMarket.Infrastructure.Database.Context
                 .ApplyConfiguration(new ProdutoMap())
                 .ApplyConfiguration(new PedidoSituacaoMap())
                 .ApplyConfiguration(new PedidoMap())
-                .ApplyConfiguration(new PedidoItemMap());
+                .ApplyConfiguration(new PedidoItemMap())
+                .ApplyConfiguration(new CarrinhoItemMap());
+
 
             base.OnModelCreating(modelBuilder);
         }

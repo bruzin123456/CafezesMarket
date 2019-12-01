@@ -41,6 +41,12 @@ namespace CafezesMarket.Services
                     .Include(endereco => endereco.Estado)
                     .Where(endereco => endereco.Ativo)
                     .LoadAsync();
+
+                await _context.Entry(cliente)
+                   .Collection(cli => cli.CarrinhoItens)
+                   .Query()
+                   .Include(cItem => cItem.Produto)
+                   .LoadAsync();
             }
 
             return cliente;

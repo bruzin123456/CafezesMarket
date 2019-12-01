@@ -127,5 +127,17 @@ CREATE TABLE pedido_item (
     CONSTRAINT CHK_pedido_item_quantidade CHECK (quantidade >= 0)
 )
 
+CREATE TABLE carrinho_item (
+    id bigint NOT NULL IDENTITY(1, 1),
+    cliente_id bigint NOT NULL,
+    produto_id bigint NOT NULL,
+    quantidade INT NOT NULL,
+
+    CONSTRAINT PK_carrinho_item PRIMARY KEY (id),
+    CONSTRAINT FK_carrinho_cliente FOREIGN KEY (cliente_id) REFERENCES cliente,
+    CONSTRAINT FK_carrinho_item_produto FOREIGN KEY (produto_id) REFERENCES produto,
+    CONSTRAINT CHK_carrinho_item_quantidade CHECK (quantidade >= 0)
+)
+
 
 --   fim pedido  --

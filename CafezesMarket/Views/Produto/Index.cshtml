@@ -36,7 +36,7 @@
                                         }
                                         else
                                         {
-                                            <a class="btn btn-sm btn-outline-warning" href="#" role="button">comprar</a>
+                                            <button class="btn btn-sm btn-outline-warning" onclick="adicionarAoCarrinho(@produto.Id, 1)">comprar</button>
                                         }
                                     </div>
                                     <small class="text-muted">@produto.Preco.ToString("C", new CultureInfo("pt-BR"))</small>

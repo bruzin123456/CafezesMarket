@@ -52,6 +52,10 @@ namespace CafezesMarket.Infrastructure.Database.Mapping
                 .WithOne(model => model.Cliente)
                 .HasForeignKey(endereco => endereco.ClienteId);
 
+            builder.HasMany(model => model.CarrinhoItens)
+                .WithOne(model => model.Cliente)
+                .HasForeignKey(carrinhoItem => carrinhoItem.ClienteId);
+
             builder.HasMany(model => model.Pedidos)
                 .WithOne(model => model.Cliente)
                 .HasForeignKey(pedido => pedido.ClienteId);

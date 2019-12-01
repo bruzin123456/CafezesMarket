@@ -41,7 +41,7 @@
                         <dl class="param param-inline">
                             <dt>Quantidade:</dt>
                             <dd>
-                                <select class="form-control form-control-sm" style="width:70px;">
+                                <select id="inputQuantidade" class="form-control form-control-sm" style="width:70px;">
                                     @foreach (var i in Enumerable.Range(1, Math.Min(5, Model.Quantidade)))
                                     {
                                         <option>@i.ToString()</option>
@@ -57,7 +57,7 @@
                         }
                         else
                         {
-                            <a class="btn btn-md btn-warning" href="#" role="button">adicionar ao carrinho</a>
+                            <button class="btn btn-md btn-warning" onclick="adicionarProduto(@Model.Id)">comprar</button>
                         }
                     </div>
                 </div> <!-- row.// -->
@@ -65,3 +65,5 @@
         </aside> <!-- col.// -->
     </div> <!-- row.// -->
 </div> <!-- card.// -->
+
+<script type="text/javascript" src="~/js/produto.js"></script>

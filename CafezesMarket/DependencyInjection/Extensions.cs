@@ -54,6 +54,7 @@ namespace CafezesMarket.DependencyInjection
             services.AddTransient<IClienteService, ClienteService>();
             services.AddTransient<IProdutoService, ProdutoService>();
             services.AddTransient<ICredencialService, CredencialService>();
+            services.AddTransient<ICarrinhoService, CarrinhoService>();
 
             return services;
         }

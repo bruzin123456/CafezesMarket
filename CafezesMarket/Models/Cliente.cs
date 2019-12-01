@@ -14,6 +14,8 @@ namespace CafezesMarket.Models
         public virtual Credencial Credencial { get; set; }
         public virtual IList<Pedido> Pedidos { get; set; }
         public virtual IList<Endereco> Enderecos { get; set; }
+        public virtual IList<CarrinhoItem> CarrinhoItens { get; set; }
+
 
         public Cliente()
         {
@@ -49,6 +51,19 @@ namespace CafezesMarket.Models
             }
 
             return false;
+        }
+
+        public decimal CarrinhoTotal()
+        {
+            decimal  total = 0;
+            if(CarrinhoItens != null)
+            {
+                foreach (CarrinhoItem cItem in CarrinhoItens)
+                {
+                    total += cItem.Produto.Preco * cItem.Quantidade;
+                }
+            }
+            return total;
         }
     }
 }

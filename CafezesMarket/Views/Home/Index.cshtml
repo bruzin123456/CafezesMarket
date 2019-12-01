@@ -30,7 +30,7 @@
                         <h4>@produto.Preco.ToString("C", new CultureInfo("pt-BR"))</h4>
                         <p>
                             <a class="btn btn-sm btn-dark" href="/Produto/@produto.Id" role="button">detalhes</a>
-                            <a class="btn btn-sm btn-warning" href="#" role="button">comprar</a>
+                            <button class="btn btn-sm btn-warning" onclick="adicionarAoCarrinho(@produto.Id, 1)">comprar</button>
                         </p>
                     </div>
                 </div>

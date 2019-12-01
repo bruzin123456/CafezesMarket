@@ -1,0 +1,78 @@
+﻿@model CafezesMarket.Models.Cliente
+
+@{
+    ViewData["Title"] = "Carrinho";
+}
+
+@Html.AntiForgeryToken()
+
+<link rel="stylesheet" href="~/css/carrinho.css" />
+
+<div class="container mb-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">Produto</th>
+                            <th scope="col">Estoque</th>
+                            <th scope="col" class="text-center">Quantidade</th>
+                            <th scope="col" class="text-right">Valor</th>
+                            <th> </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.CarrinhoItens.Count > 0)
+                        {
+                            @foreach (var carrinhoItem in Model.CarrinhoItens)
+                            {
+                                <tr>
+                                    <td>@carrinhoItem.Produto.Titulo</td>
+                                    <td>Disponível</td>
+                                    <td>@carrinhoItem.Quantidade</td>
+                                    <td class="text-right">@carrinhoItem.Produto.Preco.ToString("C", new CultureInfo("pt-BR"))</td>
+                                    <td class="text-right"><button class="btn btn-sm btn-danger" onclick="removerDoCarrinho(@carrinhoItem.Id)"><i class="fa fa-trash"></i> </button> </td>
+                                </tr>
+                            }
+                        }
+                        @if (Model.CarrinhoItens.Count == 0)
+                        {
+                        <td></td>
+                        <td></td>
+                        <td>
+                            <strong>Carrinho Vazio!</strong>
+                        </td>
+                        <td></td>
+                        <td></td>
+                    }
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>Entrega</td>
+                            <td class="text-right">R$0,00</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td><strong>Total</strong></td>
+                            <td class="text-right"><strong>@Model.CarrinhoTotal().ToString("C", new CultureInfo("pt-BR"))</strong></td>
+                        </tr>
+                        </tbody>
+                    </table>
+            </div>
+        </div>
+        <div class="col mb-2">
+            <div class="row">
+                <div class="col-sm-12  col-md-6">
+                    <a class="btn btn-block btn-light" href="/" role="button">Continuar Comprando</a>
+                </div>
+                <div class="col-sm-12 col-md-6 text-right">
+                    <button class="btn btn-lg btn-block btn-success text-uppercase">Finalizar Compras</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
