@@ -28,6 +28,8 @@ function adicionarAoCarrinho(produtoId, quant) {
         error: function (response) {
             if (response.status != null && response.status === 400) {
                 alert(response.responseJSON.value.join('\n'));
+            } else if (response.status === 401) {
+                alert('Preicsa estar logado');
             } else {
                 alert('Desculpe. Não foi possível adicionar ao carrinho, por favor, tente novamente...');
             }
