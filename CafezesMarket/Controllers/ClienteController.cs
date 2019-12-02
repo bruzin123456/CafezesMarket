@@ -13,8 +13,6 @@ using static CafezesMarket.Models.Enums;
 
 namespace CafezesMarket.Controllers
 {
-    //[ApiController]
-    //[Route("[controller]")]
     [Authorize(Roles = "cliente")]
     public class ClienteController : Controller
     {

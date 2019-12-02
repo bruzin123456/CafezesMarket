@@ -53,7 +53,7 @@ namespace CafezesMarket.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Cliente - Index - Erro");
+                _logger.LogError(ex, "Carrinho - Index - Erro");
 
                 throw;
             }
@@ -90,12 +90,12 @@ namespace CafezesMarket.Controllers
 
                     if (resultado)
                     {
-                        _logger.LogInformation($"Cliente - AdicionarAoCarrinho - Sucesso - ClienteId '{clienteId}'");
+                        _logger.LogInformation($"Carrinho - AdicionarAoCarrinho - Sucesso - ClienteId '{clienteId}'");
                         return StatusCode((int)HttpStatusCode.OK,
                             Json("Item adicionado ao carrinho!"));
                     } else
                     {
-                        _logger.LogInformation($"Cliente - AdicionarAoCarrinho - Erro - Estado inválido carrinho '{clienteId}'");
+                        _logger.LogInformation($"Carrinho - AdicionarAoCarrinho - Erro - Estado inválido carrinho '{clienteId}'");
 
                         return StatusCode((int)HttpStatusCode.BadRequest,
                             Json("Falha ao adicionar ao carrinho"));
@@ -103,13 +103,13 @@ namespace CafezesMarket.Controllers
                 }
                 else
                 {
-                    _logger.LogWarning($"Cliente - AdicionarAoCarrinho - Erro - ClienteId não numérico '{claimId}'");
+                    _logger.LogWarning($"Carrinho - AdicionarAoCarrinho - Erro - ClienteId não numérico '{claimId}'");
                     return StatusCode((int)HttpStatusCode.Unauthorized, Json("Precisa estar logado!"));
                 }
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Cliente - AdicionarEndereco - Erro");
+                _logger.LogError(ex, $"Carrinho - AdicionarEndereco - Erro");
 
                 return StatusCode((int)HttpStatusCode.InternalServerError,
                     Json("Ocorreu um erro ao processar a requisição."));
@@ -125,10 +125,10 @@ namespace CafezesMarket.Controllers
             {
                 if (id < 0)
                 {
-                    _logger.LogWarning($"Cliente - RemoveItemCarrinho - Erro - Id menor que zero '{id}'");
+                    _logger.LogWarning($"Carrinho - RemoveItemCarrinho - Erro - Id menor que zero '{id}'");
 
                     return StatusCode((int)HttpStatusCode.BadRequest,
-                        Json("Endereço id inválido"));
+                        Json("ItemCarrinho id inválido"));
                 }
 
                 var claimId = User?.FindFirst(ClaimTypes.PrimarySid)
@@ -137,21 +137,21 @@ namespace CafezesMarket.Controllers
                 if (long.TryParse(claimId, out long clienteId))
                 {
                     await _carrinhoService.RemoteItemCarrinhoAsync(clienteId, id);
-                    _logger.LogWarning($"Cliente - RemoveItemCarrinho - Sucesso - ClienteId '{clienteId}', itemId '{id}'");
+                    _logger.LogInformation($"Carrinho - RemoveItemCarrinho - Sucesso - ClienteId '{clienteId}', itemId '{id}'");
 
                     return StatusCode((int)HttpStatusCode.OK,
                         Json("Item removido do carrinho!"));
                 }
                 else
                 {
-                    _logger.LogWarning($"Cliente - RemoveItemCarrinho - Erro - ClienteId não numérico '{claimId}'");
+                    _logger.LogWarning($"Carrinho - RemoveItemCarrinho - Erro - ClienteId não numérico '{claimId}'");
 
                     return StatusCode((int)HttpStatusCode.Unauthorized);
                 }
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Cliente - RemoveItemCarrinho - Erro - Id {id}");
+                _logger.LogError(ex, $"Carrinho - RemoveItemCarrinho - Erro - Id {id}");
 
                 return StatusCode((int)HttpStatusCode.InternalServerError,
                     Json("Ocorreu um erro ao processar a requisição."));

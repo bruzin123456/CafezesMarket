@@ -27,6 +27,12 @@ namespace CafezesMarket.DependencyInjection
                     configure.ExpireTimeSpan = TimeSpan.FromMinutes(5);
                 });
 
+            services.AddControllers()
+                .AddJsonOptions(configure =>
+                {
+                    configure.JsonSerializerOptions.WriteIndented = true;
+                });
+
             return services;
         }
 
@@ -55,6 +61,7 @@ namespace CafezesMarket.DependencyInjection
             services.AddTransient<IProdutoService, ProdutoService>();
             services.AddTransient<ICredencialService, CredencialService>();
             services.AddTransient<ICarrinhoService, CarrinhoService>();
+            services.AddTransient<IRelatorioService, RelatorioService>();
 
             return services;
         }
